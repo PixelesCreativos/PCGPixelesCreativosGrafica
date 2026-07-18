@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCG · Pixeles Creativos Gráfica</title>
+  <meta name="description" content="Diseño gráfico, papelería, stickers, accesorios y más. Productos únicos con identidad propia." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════
+       VARIABLES & RESET
+    ═══════════════════════════════════════════ */
+    :root {
+      --rose:        #D4879A;
+      --rose-light:  #E8B4C2;
+      --rose-pale:   #F5DCE5;
+      --cream:       #FFF8F5;
+      --cream-dark:  #F5EDE9;
+      --blush:       #FDE8EF;
+      --text-dark:   #3D2C35;
+      --text-mid:    #7A5865;
+      --text-light:  #B08A97;
+      --white:       #FFFFFF;
+      --shadow:      rgba(212, 135, 154, 0.15);
+      --shadow-md:   rgba(61, 44, 53, 0.12);
+      --radius:      14px;
+      --radius-lg:   22px;
+      --transition:  0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    [data-theme="dark"] {
+      --rose:        #C4758A;
+      --rose-light:  #A05870;
+      --rose-pale:   #4A2535;
+      --cream:       #1E1318;
+      --cream-dark:  #281820;
+      --blush:       #2E1A23;
+      --text-dark:   #F5DCE5;
+      --text-mid:    #C9A0B0;
+      --text-light:  #8A6070;
+      --white:       #251820;
+      --shadow:      rgba(0,0,0,0.3);
+      --shadow-md:   rgba(0,0,0,0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+    a { text-decoration: none; color: inherit; }
+
+    img { max-width: 100%; display: block; }
+
+    /* ═══════════════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════════════ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      background: var(--rose-pale);
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      color: var(--text-dark);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      letter-spacing: 0.4px;
+    }
+
+    .btn-primary {
+      background: var(--rose);
+      color: #fff;
+      box-shadow: 0 6px 24px var(--shadow);
+    }
+    .btn-primary:hover {
+      background: var(--text-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--rose);
+      border: 2px solid var(--rose);
+    }
+    .btn-outline:hover {
+      background: var(--rose);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .fade-up {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .js-animate .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+    .fade-up.delay-4 { transition-delay: 0.4s; }
+
+    /* ═══════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 18px 0;
+      transition: all var(--transition);
+    }
+
+    #navbar.scrolled {
+      background: var(--cream);
+      box-shadow: 0 2px 20px var(--shadow);
+      padding: 12px 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+    }
+    .logo-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      line-height: 1.2;
+      margin-left: 8px;
+      letter-spacing: 0.02em;
+    }
+    .logo-name span {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--rose);
+    }
+    .logo-letter {
+      font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1;
+      user-select: none;
+    }
+    footer .logo-letter { color: #fff; }
+
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--rose), var(--rose-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      box-shadow: 0 4px 14px var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .logo-tagline {
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 2px;
+      background: var(--rose);
+      border-radius: 2px;
+      transition: width var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--rose); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--rose-pale);
+      background: var(--cream-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all var(--transition);
+      color: var(--text-dark);
+    }
+    .theme-btn:hover { background: var(--rose-pale); transform: rotate(20deg); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text-dark);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--cream);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--text-dark);
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--rose); }
+    .mobile-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-actions .btn { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(150deg, var(--blush) 0%, var(--cream) 50%, var(--rose-pale) 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 100px;
+    }
+
+    .hero-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-shapes span {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--rose-pale);
+      opacity: 0.5;
+    }
+    .hero-shapes span:nth-child(1) { width: 500px; height: 500px; top: -150px; right: -100px; }
+    .hero-shapes span:nth-child(2) { width: 300px; height: 300px; bottom: -80px; left: -60px; background: var(--rose-light); opacity: 0.2; }
+    .hero-shapes span:nth-child(3) { width: 120px; height: 120px; top: 30%; right: 20%; opacity: 0.3; }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .hero-eyebrow-dot {
+      width: 8px; height: 8px;
+      background: var(--rose);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    .hero-eyebrow-text {
+      font-size: 0.8rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      color: var(--text-dark);
+    }
+    .hero-title em { color: var(--rose); font-style: italic; }
+
+    .hero-desc {
+      color: var(--text-mid);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rose-pale);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--rose);
+    }
+    .stat-label { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; }
+
+    .hero-image { position: relative; z-index: 1; }
+
+    .hero-img-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: var(--rose-pale);
+      box-shadow: 0 30px 80px var(--shadow-md);
+    }
+
+    /* ── CARRUSEL HERO ── */
+    .hero-carousel { position: relative; width: 100%; height: 100%; }
+    .hero-carousel-track {
+      width: 100%; height: 100%;
+      position: relative;
+    }
+    .hero-carousel-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .hero-carousel-slide.active { opacity: 1; }
+    .hero-carousel-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(4px);
+      border: none; border-radius: 50%;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10;
+      transition: background 0.2s;
+      color: #fff; font-size: 1.1rem;
+    }
+    .carousel-btn:hover { background: rgba(255,255,255,0.5); }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    .carousel-dots {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 10;
+    }
+    .carousel-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer; transition: background 0.2s, transform 0.2s;
+      border: none;
+    }
+    .carousel-dot.active { background: #fff; transform: scale(1.3); }
+
+    .hero-badge {
+      position: absolute;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 12px 16px;
+      box-shadow: 0 8px 30px var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      animation: float 4s ease-in-out infinite;
+    }
+    .hero-badge:nth-child(2) { animation-delay: 1s; }
+    .hero-badge:nth-child(3) { animation-delay: 2s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero-badge.badge-top { top: 20px; left: -30px; }
+    .hero-badge.badge-bottom { bottom: 30px; right: -20px; }
+    .hero-badge .badge-icon { font-size: 1.3rem; }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-desc { max-width: 100%; }
+      .hero-cta { justify-content: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-image { max-width: 380px; margin: 0 auto; }
+      .hero-badge.badge-top { left: -10px; }
+      .hero-badge.badge-bottom { right: -10px; }
+    }
+
+    /* ═══════════════════════════════════════════
+       SOBRE MÍ
+    ═══════════════════════════════════════════ */
+    #sobre-mi {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-img-wrap { position: relative; }
+
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--rose-pale), var(--blush));
+      overflow: hidden;
+      box-shadow: 0 20px 60px var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rose);
+      font-size: 5rem;
+    }
+
+    .about-deco {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 20px; left: 20px;
+      border: 2px solid var(--rose-pale);
+      border-radius: var(--radius-lg);
+      z-index: -1;
+    }
+
+    .about-chip {
+      position: absolute;
+      bottom: -18px; right: -18px;
+      background: var(--rose);
+      color: #fff;
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px var(--shadow);
+      text-align: center;
+    }
+    .about-chip-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .about-chip-label { font-size: 0.7rem; opacity: 0.85; margin-top: 3px; }
+
+    .about-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .skill-tag {
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: var(--rose-pale);
+      color: var(--rose);
+      transition: all var(--transition);
+    }
+    .skill-tag:hover {
+      background: var(--rose);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-img-wrap { max-width: 300px; margin: 0 auto; }
+    }
+
+    /* ═══════════════════════════════════════════
+       PRODUCTOS
+    ═══════════════════════════════════════════ */
+    #productos {
+      padding: 100px 0;
+      background: var(--cream);
+    }
+
+    .productos-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 50px;
+      border: 2px solid var(--rose-pale);
+      background: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--rose);
+      border-color: var(--rose);
+      color: #fff;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px var(--shadow-md);
+    }
+
+    .product-img {
+      position: relative;
+      aspect-ratio: 1/1;
+      overflow: hidden;
+      background: var(--rose-pale);
+    }
+
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--rose-pale), var(--blush));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+
+    .product-card:hover .product-img img { transform: scale(1.06); }
+
+    .product-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-nuevo { background: var(--rose); color: #fff; }
+    .badge-popular { background: #F5A623; color: #fff; }
+    .badge-agotado { background: #9E9E9E; color: #fff; }
+    .badge-ultimo { background: #E53935; color: #fff; }
+
+    .product-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(61, 44, 53, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .product-card:hover .product-overlay { opacity: 1; }
+
+    .overlay-btn {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: #fff;
+      color: var(--text-dark);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay-btn:hover {
+      background: var(--rose);
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .product-info { padding: 18px; }
+
+    .product-cat {
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .product-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--rose);
+    }
+    .product-price.consultar { font-size: 0.85rem; color: var(--text-light); font-family: 'Poppins', sans-serif; }
+
+    .product-stock {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .stock-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .stock-ok .stock-dot { background: #4CAF50; }
+    .stock-ok { color: #4CAF50; }
+    .stock-low .stock-dot { background: #FF9800; }
+    .stock-low { color: #FF9800; }
+    .stock-out .stock-dot { background: #9E9E9E; }
+    .stock-out { color: #9E9E9E; }
+
+    /* ═══════════════════════════════════════════
+       MUESTRAS
+    ═══════════════════════════════════════════ */
+    #muestras {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .muestras-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+
+    .muestra-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .muestra-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .muestra-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px var(--shadow); }
+
+    .muestra-swatch {
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .muestra-label {
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-mid);
+    }
+
+    .color-palette {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .color-swatch {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform var(--transition);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border: 3px solid transparent;
+    }
+    .color-swatch:hover { transform: scale(1.2); }
+    .color-swatch.selected { border-color: var(--text-dark); }
+
+    @media (max-width: 768px) {
+      .muestras-intro { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    /* ═══════════════════════════════════════════
+       TESTIMONIOS
+    ═══════════════════════════════════════════ */
+    #testimonios {
+      padding: 100px 0;
+      background: linear-gradient(135deg, var(--blush), var(--cream));
+    }
+
+    .testimonios-header { text-align: center; margin-bottom: 56px; }
+    .testimonios-header .section-sub { margin: 0 auto; }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: transform var(--transition);
+    }
+    .testimonial-card:hover { transform: translateY(-4px); }
+
+    .stars { color: #F5A623; font-size: 1rem; margin-bottom: 14px; letter-spacing: 3px; }
+
+    .testimonial-text {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+
+    .author-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-pale), var(--rose-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .author-name { font-weight: 600; font-size: 0.88rem; color: var(--text-dark); }
+    .author-date { font-size: 0.72rem; color: var(--text-light); }
+
+    /* ═══════════════════════════════════════════
+       CONTACTO
+    ═══════════════════════════════════════════ */
+    #contacto {
+      padding: 100px 0;
+      background: var(--cream);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-top: 28px;
+      padding: 20px;
+      background: var(--white);
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    .contact-item:hover { transform: translateX(4px); box-shadow: 0 6px 24px var(--shadow); }
+
+    .contact-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--rose-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .contact-item-title { font-weight: 600; font-size: 0.88rem; color: var(--text-dark); }
+    .contact-item-val { font-size: 0.82rem; color: var(--text-light); margin-top: 2px; }
+
+    .social-links { display: flex; gap: 12px; margin-top: 32px; }
+
+    .social-link {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--rose-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--rose);
+      transition: all var(--transition);
+    }
+    .social-link:hover {
+      background: var(--rose);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--shadow);
+    }
+
+    .contact-form {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: 0 8px 40px var(--shadow);
+    }
+
+    .form-title { font-size: 1.4rem; margin-bottom: 6px; color: var(--text-dark); }
+    .form-sub { font-size: 0.85rem; color: var(--text-light); margin-bottom: 28px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-mid); }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 16px;
+      border: 2px solid var(--cream-dark);
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      background: var(--cream);
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--rose); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit { width: 100%; justify-content: center; font-size: 0.92rem; padding: 15px; }
+
+    .form-note { text-align: center; font-size: 0.75rem; color: var(--text-light); margin-top: 12px; }
+
+    .form-success { display: none; text-align: center; padding: 32px; color: var(--text-dark); }
+    .form-success .success-icon { font-size: 3rem; margin-bottom: 12px; }
+
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.7);
+      padding: 60px 0 32px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand .logo-name { color: #fff; }
+    .footer-brand .logo-tagline { color: var(--rose-light); }
+    .footer-desc { font-size: 0.83rem; line-height: 1.7; margin-top: 16px; max-width: 260px; }
+
+    .footer-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: #fff; margin-bottom: 18px; }
+
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 0.83rem; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--rose-light); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    /* ═══════════════════════════════════════════
+       WHATSAPP FLOAT
+    ═══════════════════════════════════════════ */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      z-index: 999;
+      width: 58px; height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.12) translateY(-3px);
+      box-shadow: 0 14px 40px rgba(37, 211, 102, 0.5);
+    }
+    .whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
+
+    .whatsapp-tooltip {
+      position: absolute;
+      right: 68px;
+      background: var(--text-dark);
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .whatsapp-float:hover .whatsapp-tooltip { opacity: 1; }
+
+    /* ═══════════════════════════════════════════
+       LIGHTBOX
+    ═══════════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,0.88);
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      transition: background var(--transition);
+    }
+    .lightbox-close:hover { background: var(--rose); }
+
+    .lightbox-content { display: flex; max-height: 90vh; }
+
+    .lightbox-img {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      background: var(--rose-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      min-height: 350px;
+    }
+
+    .lightbox-info {
+      padding: 36px;
+      min-width: 280px;
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .lightbox-cat { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); font-weight: 600; }
+    .lightbox-name { font-size: 1.5rem; margin: 10px 0; color: var(--text-dark); }
+    .lightbox-desc { font-size: 0.88rem; line-height: 1.7; color: var(--text-mid); }
+    .lightbox-price { font-size: 1.6rem; color: var(--rose); margin: 16px 0 4px; }
+    .lightbox-actions { display: flex; flex-direction: column; gap: 10px; }
+    .lightbox-gallery { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; pointer-events: none; border-radius: 12px; overflow: hidden; }
+    .lightbox-arrow { pointer-events: all; background: rgba(255,255,255,0.22); backdrop-filter: blur(4px); border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; font-size: 1.3rem; transition: background 0.2s; margin: 0 10px; flex-shrink: 0; }
+    .lightbox-arrow:hover { background: rgba(255,255,255,0.45); }
+    .lightbox-dot-row { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+    .lightbox-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); border: none; cursor: pointer; transition: background 0.2s; }
+    .lightbox-dot.active { background: #fff; }
+
+    @media (max-width: 700px) {
+      .lightbox-content { flex-direction: column; overflow-y: auto; }
+      .lightbox-img { min-width: 100%; max-width: 100%; min-height: 220px; }
+      .lightbox-info { max-width: 100%; }
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 100px; right: 32px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--rose-pale);
+      color: var(--rose);
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition);
+      z-index: 998;
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { background: var(--rose); color: #fff; transform: translateY(-3px); }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#inicio" class="logo">
+        <span class="logo-letter">P</span>
+        <svg width="42" height="46" viewBox="0 0 42 46" xmlns="http://www.w3.org/2000/svg" style="display:block;flex-shrink:0">
+          <path d="M34,31 A15,15 0 0 1 27,38" stroke="#FF5722" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M27,38 A15,15 0 0 1 17,38" stroke="#FFC107" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M17,38 A15,15 0 0 1 9,32" stroke="#8BC34A" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M9,32 A15,15 0 0 1 6,23" stroke="#4CAF50" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M6,23 A15,15 0 0 1 9,14" stroke="#00BCD4" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M9,14 A15,15 0 0 1 17,8" stroke="#2196F3" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M17,8 A15,15 0 0 1 27,8" stroke="#9C27B0" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M27,8 A15,15 0 0 1 34,15" stroke="#E91E63" stroke-width="9" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-letter">G</span>
+        <div class="logo-name">Pixeles Creativos<span>Gráfica</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#muestras">Muestras</a></li>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-btn" id="themeBtn" title="Cambiar tema">🌙</button>
+        <a href="https://wa.me/5493329336646?text=Hola!%20Vi%20tu%20web%20y%20quiero%20consultar%20sobre%20tus%20productos%20🌸" target="_blank" class="btn btn-primary" style="padding:10px 20px">Consultar</a>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="#inicio" class="mobile-link">Inicio</a>
+    <a href="#productos" class="mobile-link">Productos</a>
+    <a href="#muestras" class="mobile-link">Muestras</a>
+    <a href="#sobre-mi" class="mobile-link">Sobre mí</a>
+    <a href="#contacto" class="mobile-link">Contacto</a>
+    <a href="https://wa.me/5493329336646" target="_blank" class="btn btn-primary">WhatsApp</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="inicio">
+    <div id="hero">
+      <div class="hero-shapes"><span></span><span></span><span></span></div>
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <div class="hero-eyebrow fade-up">
+            <div class="hero-eyebrow-dot"></div>
+            <span class="hero-eyebrow-text">Diseño con identidad propia</span>
+          </div>
+          <h1 class="hero-title fade-up delay-1">
+            Pixeles Creativos<br><em>Gráfica</em>
+          </h1>
+          <p class="hero-desc fade-up delay-2">
+            Papelería, stickers, diseño gráfico, accesorios y ropa con personalidad.
+            Cada producto hecho con amor y creatividad.
+          </p>
+          <div class="hero-cta fade-up delay-3">
+            <a href="#productos" class="btn btn-primary">✨ Ver productos</a>
+            <a href="#sobre-mi" class="btn btn-outline">Conocé mi historia</a>
+          </div>
+          <div class="hero-stats fade-up delay-4">
+            <div><div class="stat-num">+50</div><div class="stat-label">Diseños únicos</div></div>
+            <div><div class="stat-num">♡</div><div class="stat-label">Con amor</div></div>
+            <div><div class="stat-num">100%</div><div class="stat-label">Personalizable</div></div>
+          </div>
+        </div>
+        <div class="hero-image fade-up delay-2">
+          <div class="hero-img-wrap">
+            <div class="hero-carousel" id="heroCarousel">
+              <div class="hero-carousel-track">
+                <div class="hero-carousel-slide active"><img src="imagenes/6a2dca45-6ecc-416b-8d98-a9730307235c.jpg" alt="Remera 11:11"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/2c88a950-99bb-4a4a-a5b0-178f5b5196c0.jpg" alt="Buzo Nirvana"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/70ce91f9-d0d4-438b-8ebf-7a028e74e6df.jpg" alt="Kit Bailarina"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/ac76bc3e-2a0f-45ad-bec4-c52ba1b977df.jpg" alt="Remera Guns N Roses"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/d7a298a8-d472-49e8-ae33-1920f0f52e8b.jpg" alt="Kit Abejitas"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/0a8e4f10-08a0-4533-ad2b-ae4f7dda7956.jpg" alt="Remera Aesthetic"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/1c6b4cc7-5c0e-4710-af53-50fa9f690135.jpg" alt="Remera ACDC"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/378739c1-7907-4879-b678-11c36401a507.jpg" alt="Remera Hermano Mayor"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/64bcd880-7ccf-4588-8e3a-18e6e3672ac2.jpg" alt="Kit Paw Patrol"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/accff16f-8bea-46a1-8573-e3d8aa6941d8.jpg" alt="Centro Mesa Paw Patrol"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/f5dc4218-f4de-486a-8639-a0a7f34e4f91.jpg" alt="Bolsa Roblox"></div>
+                <div class="hero-carousel-slide"><img src="imagenes/eeabb7fd-9bd1-4f50-ad43-31d5ca7ff415.jpg" alt="Remera Somos Instantes"></div>
+              </div>
+              <button class="carousel-btn prev" onclick="heroCarouselMove(-1)">&#8249;</button>
+              <button class="carousel-btn next" onclick="heroCarouselMove(1)">&#8250;</button>
+              <div class="carousel-dots" id="heroDots"></div>
+            </div>
+            <div class="hero-badge badge-top"><span class="badge-icon">✨</span><span>Diseños exclusivos</span></div>
+            <div class="hero-badge badge-bottom"><span class="badge-icon">🌸</span><span>Hecho con amor</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section id="productos">
+    <div class="container">
+      <div class="productos-header">
+        <div>
+          <span class="section-tag fade-up">Catálogo</span>
+          <h2 class="section-title fade-up delay-1">Mis productos</h2>
+          <p class="section-sub fade-up delay-2">Explorá toda la colección. Filtrá por categoría y consultame para personalizar lo que quieras.</p>
+        </div>
+      </div>
+
+      <div class="filter-bar fade-up">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="ropa">👕 Remeras & Buzos</button>
+        <button class="filter-btn" data-filter="eventos">🎉 Eventos & Fiestas</button>
+      </div>
+
+      <div class="products-grid" id="productsGrid">
+
+        <!-- PRODUCTO 1 -->
+        <div class="product-card fade-up" data-category="ropa" data-name="Remera Aesthetic" data-desc="Remera negra oversize con diseño de estatua griega estilo aesthetic. 100% algodón. Disponible en talles S, M, L, XL." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/0a8e4f10-08a0-4533-ad2b-ae4f7dda7956.jpg" alt="Remera Aesthetic" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-nuevo">Nuevo</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Remera%20Aesthetic%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Remera Aesthetic</h3>
+            <p class="product-desc">Negra, diseño estatua griega. 100% algodón.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 2 -->
+        <div class="product-card fade-up delay-1" data-category="ropa" data-name="Remera AC/DC Back in Black" data-desc="Remera negra con diseño AC/DC Back in Black · Hells Bells. Estampado sublimado de alta calidad. Talles S a XL." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/1c6b4cc7-5c0e-4710-af53-50fa9f690135.jpg" alt="Remera AC/DC" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-popular">Popular</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Remera%20AC%2FDC%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Remera AC/DC</h3>
+            <p class="product-desc">Negra, estampado Back in Black · Hells Bells.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 3 -->
+        <div class="product-card fade-up delay-2" data-category="ropa" data-name="Buzo Nirvana" data-desc="Buzo negro oversize con estampado de Nirvana en la espalda. Tela de alta calidad, cómodo y abrigado. Talles S a XL." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/2c88a950-99bb-4a4a-a5b0-178f5b5196c0.jpg" alt="Buzo Nirvana" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-nuevo">Nuevo</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20el%20Buzo%20Nirvana%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Buzo Nirvana</h3>
+            <p class="product-desc">Negro oversize, estampado en espalda.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 4 -->
+        <div class="product-card fade-up delay-3" data-category="ropa" data-name="Remera 11:11 Soy real no perfecta" data-desc="Remera blanca con frase «11:11 · Soy real, no perfecta». Tipografía delicada, estilo minimalista. Talles S a XL." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/6a2dca45-6ecc-416b-8d98-a9730307235c.jpg" alt="Remera 11:11" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Remera%2011%3A11%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Remera 11:11</h3>
+            <p class="product-desc">Blanca, «Soy real, no perfecta». Minimalista.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 5 -->
+        <div class="product-card fade-up" data-category="ropa" data-name="Remera Somos Instantes" data-desc="Remera blanca con diseño «Somos instantes» en tipografía elegante con detalles de estrella. Estilo sofisticado y poético. Talles S a XL." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/eeabb7fd-9bd1-4f50-ad43-31d5ca7ff415.jpg" alt="Remera Somos Instantes" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Remera%20Somos%20Instantes%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Remera Somos Instantes</h3>
+            <p class="product-desc">Blanca, frase poética con estrella. Elegante.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 6 -->
+        <div class="product-card fade-up delay-1" data-category="ropa" data-name="Remera Guns N' Roses" data-desc="Remera blanca con diseño Guns N' Roses — cruz gótica con calaveras y rosas rojas. Estampado sublimado. Talles S a XL." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/ac76bc3e-2a0f-45ad-bec4-c52ba1b977df.jpg" alt="Remera Guns N' Roses" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-popular">Popular</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Remera%20Guns%20N%27%20Roses%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Remera Guns N' Roses</h3>
+            <p class="product-desc">Blanca, diseño gótico con rosas rojas.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 7 -->
+        <div class="product-card fade-up delay-2" data-category="ropa" data-name="Remera Hermano Mayor Spiderman" data-desc="Remera infantil blanca «Fui promovido a Hermano Mayor» con diseño de Spiderman. Ideal para anunciar la llegada de un hermanito. Talles 2 a 12." data-price="Consultar" data-cat="Remeras & Buzos">
+          <div class="product-img">
+            <img src="imagenes/378739c1-7907-4879-b678-11c36401a507.jpg" alt="Remera Hermano Mayor Spiderman" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-nuevo">Nuevo</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Remera%20Hermano%20Mayor%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Remeras & Buzos</div>
+            <h3 class="product-name">Remera Hermano Mayor</h3>
+            <p class="product-desc">Infantil, Spiderman «Fui promovido». Talles 2–12.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 8 -->
+
+        <!-- PRODUCTO 9 -->
+        <div class="product-card fade-up" data-category="eventos" data-name="Kit & Centro de Mesa Paw Patrol" data-images="imagenes/accff16f-8bea-46a1-8573-e3d8aa6941d8.jpg|imagenes/64bcd880-7ccf-4588-8e3a-18e6e3672ac2.jpg" data-desc="Centro de mesa personalizado temática Paw Patrol con topper y cajita decorada. Perfecto para el centro de la mesa de cumpleaños." data-price="Consultar" data-cat="Eventos & Fiestas">
+          <div class="product-img">
+            <img src="imagenes/accff16f-8bea-46a1-8573-e3d8aa6941d8.jpg" alt="Centro de Mesa Paw Patrol" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20el%20Centro%20de%20Mesa%20Paw%20Patrol%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eventos & Fiestas</div>
+            <h3 class="product-name">Kit & Centro de Mesa Paw Patrol</h3>
+            <p class="product-desc">Topper + cajita decorada personalizada.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 10 -->
+        <div class="product-card fade-up delay-1" data-category="eventos" data-name="Bolsa Personalizada Roblox" data-desc="Bolsa de regalo personalizada temática Roblox con nombre y edad. Impresión de alta calidad, asas de satén. Ideal para entregar como recuerdo a los invitados." data-price="Consultar" data-cat="Eventos & Fiestas">
+          <div class="product-img">
+            <img src="imagenes/f5dc4218-f4de-486a-8639-a0a7f34e4f91.jpg" alt="Bolsa Roblox" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-nuevo">Nuevo</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20la%20Bolsa%20Roblox%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eventos & Fiestas</div>
+            <h3 class="product-name">Bolsa Roblox Personalizada</h3>
+            <p class="product-desc">Con nombre y edad. Asas de satén.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 11 -->
+        <div class="product-card fade-up delay-2" data-category="eventos" data-name="Kit Bailarina Jazmín" data-desc="Kit cumpleaños temática bailarina: topper con nombre, cajita decorada y bolsa de regalo. Diseño acuarela rosa. Todo personalizado." data-price="Consultar" data-cat="Eventos & Fiestas">
+          <div class="product-img">
+            <img src="imagenes/70ce91f9-d0d4-438b-8ebf-7a028e74e6df.jpg" alt="Kit Bailarina" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20el%20Kit%20Bailarina%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eventos & Fiestas</div>
+            <h3 class="product-name">Kit Bailarina</h3>
+            <p class="product-desc">Topper, cajita y bolsa. Diseño acuarela rosa.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTO 12 -->
+        <div class="product-card fade-up delay-3" data-category="eventos" data-name="Kit Abejitas 1 Añito" data-desc="Kit cumpleaños temática abejitas: topper en forma de flor con nombre, cajita decorada y bolsa de regalo. Ideal para primer cumpleaños. Todo personalizado." data-price="Consultar" data-cat="Eventos & Fiestas">
+          <div class="product-img">
+            <img src="imagenes/d7a298a8-d472-49e8-ae33-1920f0f52e8b.jpg" alt="Kit Abejitas" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-popular">Popular</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesa%20el%20Kit%20Abejitas%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eventos & Fiestas</div>
+            <h3 class="product-name">Kit Abejitas 1 Añito</h3>
+            <p class="product-desc">Topper flor, cajita y bolsa. Primer cumple.</p>
+            <div class="product-footer">
+              <span class="product-price consultar">💬 A consultar</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="product-card fade-up delay-1" data-category="stickers" data-name="60 Stickers Feliz Día Amiga" data-desc="Pack de 60 stickers circulares «Feliz Día Amiga» personalizados con tu Instagram. Impresión de alta calidad, acabado mate. Ideales para packaging, regalos y envíos." data-price="$10.000" data-cat="Stickers & Packaging">
+          <div class="product-img">
+            <img src="imagenes/sticker-amiga.jpg.jpg" alt="Stickers Feliz Día Amiga" style="width:100%;height:100%;object-fit:cover">
+            <div class="product-badge badge-new">Nuevo</div>
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesan%20los%20Stickers%20Feliz%20Día%20Amiga%20🌸" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Stickers & Packaging</div>
+            <h3 class="product-name">60 Stickers Feliz Día Amiga</h3>
+            <p class="product-desc">Con tu Instagram. Pack x60, acabado mate.</p>
+            <div class="product-footer">
+              <span class="product-price" style="color:var(--rose);font-weight:700">$10.000</span>
+              <span class="product-stock stock-ok"><span class="stock-dot"></span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end products-grid -->
+
+      <div style="text-align:center;margin-top:48px">
+        <a href="https://wa.me/5493329336646?text=Hola!%20Quiero%20ver%20más%20productos%20🌸" target="_blank" class="btn btn-outline">Ver más en WhatsApp →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MUESTRAS -->
+  <section id="muestras">
+    <div class="container">
+      <div class="muestras-intro">
+        <div>
+          <span class="section-tag fade-up">Muestras & variantes</span>
+          <h2 class="section-title fade-up delay-1">Colores y texturas disponibles</h2>
+          <p class="section-sub fade-up delay-2">Muchos productos son personalizables. Elegí los colores y combinaciones que más te gusten. ¡Consultame y armamos algo único juntas!</p>
+          <div class="color-palette fade-up delay-3">
+            <div class="color-swatch selected" style="background:#E8B4C2" title="Rosa suave"></div>
+            <div class="color-swatch" style="background:#F5DCE5" title="Blush"></div>
+            <div class="color-swatch" style="background:#C4758A" title="Rosa intenso"></div>
+            <div class="color-swatch" style="background:#FFF8F5" title="Crema"></div>
+            <div class="color-swatch" style="background:#D4A5A5" title="Mauve"></div>
+            <div class="color-swatch" style="background:#A0A8C0" title="Lila gris"></div>
+            <div class="color-swatch" style="background:#8FA68A" title="Verde salvia"></div>
+            <div class="color-swatch" style="background:#C8B99A" title="Nude"></div>
+            <div class="color-swatch" style="background:#3D2C35" title="Bordo oscuro"></div>
+          </div>
+          <div style="margin-top:28px" class="fade-up delay-4">
+            <a href="https://wa.me/5493329336646?text=Hola!%20Quiero%20ver%20muestras%20de%20colores%20🌸" target="_blank" class="btn btn-primary">💬 Pedir muestras</a>
+          </div>
+        </div>
+        <div>
+          <div class="muestra-grid fade-up delay-2">
+            <div class="muestra-card"><div class="muestra-swatch" style="background:linear-gradient(135deg,#F5DCE5,#E8B4C2)">🌸</div><div class="muestra-label">Rosa Pastel</div></div>
+            <div class="muestra-card"><div class="muestra-swatch" style="background:linear-gradient(135deg,#FFF8F5,#F5EDE9)">🤍</div><div class="muestra-label">Crema</div></div>
+            <div class="muestra-card"><div class="muestra-swatch" style="background:linear-gradient(135deg,#D4A5A5,#C4758A)">💗</div><div class="muestra-label">Mauve</div></div>
+            <div class="muestra-card"><div class="muestra-swatch" style="background:linear-gradient(135deg,#C8B99A,#B8A080)">🌾</div><div class="muestra-label">Nude</div></div>
+            <div class="muestra-card"><div class="muestra-swatch" style="background:linear-gradient(135deg,#8FA68A,#6A8A65)">🌿</div><div class="muestra-label">Salvia</div></div>
+            <div class="muestra-card"><div class="muestra-swatch" style="background:linear-gradient(135deg,#A0A8C0,#808AC0)">💜</div><div class="muestra-label">Lila</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre-mi">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap fade-up">
+          <div class="about-photo">
+            <img src="panda.jpg" alt="Sofi - PCG Pixeles Creativos Gráfica" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg)">
+          </div>
+          <div class="about-deco"></div>
+          <div class="about-chip">
+            <div class="about-chip-num">PCG</div>
+            <div class="about-chip-label">Pixeles Creativos</div>
+          </div>
+        </div>
+        <div class="about-content">
+          <span class="section-tag fade-up">Sobre mí</span>
+          <h2 class="section-title fade-up delay-1">Hola, soy la creadora detrás de PCG ✨</h2>
+          <p class="section-sub fade-up delay-2" style="margin-bottom:16px">
+            Soy diseñadora gráfica y emprendedora apasionada por transformar ideas en productos con identidad propia. Cada pieza que creo lleva un pedacito de mí: color, emoción y muchas ganas.
+          </p>
+          <p class="section-sub fade-up delay-3">
+            Empecé <strong>PCG - Pixeles Creativos Gráfica</strong> para acercar el diseño de calidad a quienes aman las cosas bellas, únicas y con alma. Desde papelería hasta ropa, todo está pensado con cariño.
+          </p>
+          <div class="about-skills fade-up delay-4">
+            <span class="skill-tag">Diseño Gráfico</span>
+            <span class="skill-tag">Papelería Artesanal</span>
+            <span class="skill-tag">Stickers</span>
+            <span class="skill-tag">Imprimibles</span>
+            <span class="skill-tag">Accesorios</span>
+            <span class="skill-tag">Ropa Ilustrada</span>
+            <span class="skill-tag">Personalización</span>
+          </div>
+          <div style="margin-top:32px" class="fade-up delay-4">
+            <a href="#contacto" class="btn btn-primary">Escribime ✉️</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <div class="container">
+      <div class="testimonios-header fade-up">
+        <span class="section-tag">Testimonios</span>
+        <h2 class="section-title">Lo que dicen mis clientas 💬</h2>
+        <p class="section-sub">Sus palabras son el mejor regalo 🌸</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card fade-up">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Los stickers son hermosos, la calidad es excelente y llegaron súper bien empacados. ¡Ya hice mi segundo pedido! Súper recomendable."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👩</div>
+            <div><div class="author-name">Valentina G.</div><div class="author-date">Junio 2025</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-up delay-1">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Pedí las invitaciones de cumple y quedaron 10 puntos. Super prolija la atención y los diseños son únicos. Todos me preguntaron dónde las hice."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">👱‍♀️</div>
+            <div><div class="author-name">Luciana M.</div><div class="author-date">Mayo 2025</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-up delay-2">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"La remera oversize es una joya. El estampado no se despega y el algodón es suavísimo. Lo mejor: la atención personalizada para elegir el diseño."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">🧑‍🦰</div>
+            <div><div class="author-name">Camila R.</div><div class="author-date">Abril 2025</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <div style="margin-bottom:56px" class="fade-up">
+        <span class="section-tag">Contacto</span>
+        <h2 class="section-title">¡Hablemos! 💌</h2>
+        <p class="section-sub">¿Tenés una idea? ¿Querés personalizar algo? Escribime sin miedo.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info fade-up">
+          <p style="color:var(--text-mid);font-size:0.9rem;line-height:1.7">Podés contactarme por el formulario, por WhatsApp o directamente por Instagram. Respondo en el día (o antes 😊).</p>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div><div class="contact-item-title">WhatsApp</div><div class="contact-item-val">+54 9 3329 33-6646</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📷</div>
+            <div>
+              <div class="contact-item-title">Instagram</div>
+              <!-- 📌 REEMPLAZAR con tu usuario de Instagram real -->
+              <div class="contact-item-val">@pixelescreativos.g</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">⏰</div>
+            <div>
+              <div class="contact-item-title">Horario de atención</div>
+              <!-- 📌 REEMPLAZAR con tu horario real -->
+              <div class="contact-item-val">Lunes a viernes · 9 a 20hs</div>
+            </div>
+          </div>
+          <div class="social-links" style="margin-top:24px">
+            <a href="https://wa.me/5493329336646" target="_blank" class="social-link" style="background:#25D366;color:#fff">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <!-- 📌 REEMPLAZAR con tu link de Instagram real -->
+            <a href="https://www.instagram.com/pixelescreativos.g" target="_blank" class="social-link" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-form fade-up delay-2">
+          <h3 class="form-title">Enviame un mensaje</h3>
+          <p class="form-sub">Te respondo a la brevedad 🌸</p>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">Nombre *</label>
+                <input type="text" id="fname" placeholder="Tu nombre" required />
+              </div>
+              <div class="form-group">
+                <label for="fphone">WhatsApp / Teléfono</label>
+                <input type="tel" id="fphone" placeholder="+54 9 ..." />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="femail">Email *</label>
+              <input type="email" id="femail" placeholder="tu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="fsubject">¿Qué te interesa?</label>
+              <select id="fsubject">
+                <option value="">Elegí una categoría</option>
+                <option value="papeleria">Papelería & Stickers</option>
+                <option value="imprimibles">Diseño & Imprimibles</option>
+                <option value="accesorios">Accesorios</option>
+                <option value="ropa">Ropa & Textil</option>
+                <option value="personalizado">Pedido personalizado</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fmessage">Mensaje *</label>
+              <textarea id="fmessage" placeholder="Contame qué tenés en mente..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Enviar mensaje ✉️</button>
+            <p class="form-note">O escribime directo por <a href="https://wa.me/5493329336646" target="_blank" style="color:var(--rose)">WhatsApp</a></p>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <div class="success-icon">🌸</div>
+            <h3>¡Mensaje enviado!</h3>
+            <p style="color:var(--text-mid);margin-top:8px">Te respondo muy pronto. ¡Gracias por escribirme!</p>
+            <a href="https://wa.me/5493329336646" target="_blank" class="btn btn-primary" style="margin-top:20px">También podés escribirme por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-letter">P</span>
+            <svg width="42" height="46" viewBox="0 0 42 46" xmlns="http://www.w3.org/2000/svg" style="display:block;flex-shrink:0">
+              <path d="M34,31 A15,15 0 0 1 27,38" stroke="#FF5722" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M27,38 A15,15 0 0 1 17,38" stroke="#FFC107" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M17,38 A15,15 0 0 1 9,32" stroke="#8BC34A" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M9,32 A15,15 0 0 1 6,23" stroke="#4CAF50" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M6,23 A15,15 0 0 1 9,14" stroke="#00BCD4" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M9,14 A15,15 0 0 1 17,8" stroke="#2196F3" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M17,8 A15,15 0 0 1 27,8" stroke="#9C27B0" stroke-width="9" fill="none" stroke-linecap="round"/>
+              <path d="M27,8 A15,15 0 0 1 34,15" stroke="#E91E63" stroke-width="9" fill="none" stroke-linecap="round"/>
+            </svg>
+            <span class="logo-letter">G</span>
+          </div>
+          <p class="footer-desc">Diseñadora gráfica y emprendedora. Creando productos únicos con identidad propia desde Argentina. 🌸</p>
+          <div class="social-links" style="margin-top:20px">
+            <a href="https://wa.me/5493329336646" target="_blank" class="social-link" style="background:rgba(255,255,255,0.1);color:#fff">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/pixelescreativos.g" target="_blank" class="social-link" style="background:rgba(255,255,255,0.1);color:#fff">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Navegación</h4>
+          <div class="footer-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#productos">Productos</a>
+            <a href="#muestras">Muestras</a>
+            <a href="#sobre-mi">Sobre mí</a>
+            <a href="#contacto">Contacto</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Categorías</h4>
+          <div class="footer-links">
+            <a href="#productos">Papelería & Stickers</a>
+            <a href="#productos">Diseño & Imprimibles</a>
+            <a href="#productos">Accesorios</a>
+            <a href="#productos">Ropa & Textil</a>
+            <a href="#contacto">Pedidos personalizados</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 PCG · Pixeles Creativos Gráfica · Todos los derechos reservados</span>
+        <span>Hecho con 🌸 en Argentina</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/5493329336646?text=Hola!%20Vi%20tu%20web%20y%20quiero%20consultar%20sobre%20tus%20productos%20🌸" target="_blank" class="whatsapp-float">
+    <span class="whatsapp-tooltip">¿Hablamos? 💬</span>
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <button class="scroll-top" id="scrollTop">↑</button>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <div class="lightbox-content">
+        <div class="lightbox-img" id="lightboxImg">🎨</div>
+        <div class="lightbox-info">
+          <div>
+            <div class="lightbox-cat" id="lightboxCat"></div>
+            <h3 class="lightbox-name" id="lightboxName"></h3>
+            <p class="lightbox-desc" id="lightboxDesc"></p>
+            <div class="lightbox-price" id="lightboxPrice"></div>
+          </div>
+          <div class="lightbox-actions">
+            <a id="lightboxWA" href="#" target="_blank" class="btn btn-primary">💬 Consultar por WhatsApp</a>
+            <button onclick="closeLightbox()" class="btn btn-outline">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+    document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open')));
+
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('pcg-theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    themeBtn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('pcg-theme', next);
+    });
+
+    // Fade-up animations
+    document.body.classList.add('js-animate');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    // Safety: force-show everything after 1.5s in case observer misses elements
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible')), 1500);
+
+    // Product filters
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.product-card').forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          if (match) { card.style.opacity = '1'; card.style.transform = 'scale(1)'; card.style.display = ''; }
+          else { card.style.opacity = '0'; card.style.transform = 'scale(0.95)'; setTimeout(() => { card.style.display = 'none'; }, 300); }
+        });
+      });
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    function openLightbox(card) {
+      document.getElementById('lightboxCat').textContent = card.dataset.cat || '';
+      document.getElementById('lightboxName').textContent = card.dataset.name || '';
+      document.getElementById('lightboxDesc').textContent = card.dataset.desc || '';
+      const lbImg = document.getElementById('lightboxImg');
+      const priceEl = document.getElementById('lightboxPrice');
+      const price = card.dataset.price || '';
+      if (price === 'Consultar') { priceEl.textContent = '💬 A consultar'; priceEl.style.fontSize = '1rem'; priceEl.style.color = 'var(--text-light)'; }
+      else { priceEl.textContent = price; priceEl.style.fontSize = '1.6rem'; priceEl.style.color = 'var(--rose)'; }
+
+      // Build images array from data-images (pipe-separated) or single img element
+      let images = [];
+      if (card.dataset.images) {
+        images = card.dataset.images.split('|').filter(Boolean);
+      } else {
+        const imgEl = card.querySelector('img');
+        if (imgEl) images = [imgEl.src];
+      }
+
+      function showImg(src, thumbEl) {
+        lbImg.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+        document.querySelectorAll('.lightbox-thumb').forEach(t => t.classList.remove('active'));
+        if (thumbEl) thumbEl.classList.add('active');
+      }
+
+      // Remove old gallery if any
+      const oldGallery = document.getElementById('lightboxGallery');
+      if (oldGallery) oldGallery.remove();
+
+      if (images.length > 1) {
+        let lbCurrent = 0;
+        lbImg.style.position = 'relative';
+        lbImg.innerHTML = `<img src="${images[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+        const dotsHtml = images.map((_,i) => `<button class="lightbox-dot${i===0?' active':''}" data-i="${i}"></button>`).join('');
+        const gallery = document.createElement('div');
+        gallery.id = 'lightboxGallery';
+        gallery.className = 'lightbox-gallery';
+        gallery.innerHTML = `
+          <button class="lightbox-arrow" id="lbPrev">&#8249;</button>
+          <div class="lightbox-dot-row">${dotsHtml}</div>
+          <button class="lightbox-arrow" id="lbNext">&#8250;</button>`;
+        lbImg.appendChild(gallery);
+        function lbGo(n) {
+          lbCurrent = (n + images.length) % images.length;
+          lbImg.querySelector('img').src = images[lbCurrent];
+          lbImg.querySelectorAll('.lightbox-dot').forEach((d,i) => d.classList.toggle('active', i===lbCurrent));
+        }
+        document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); lbGo(lbCurrent-1); };
+        document.getElementById('lbNext').onclick = e => { e.stopPropagation(); lbGo(lbCurrent+1); };
+        lbImg.querySelectorAll('.lightbox-dot').forEach(d => d.addEventListener('click', e => { e.stopPropagation(); lbGo(+d.dataset.i); }));
+      } else {
+        lbImg.style.position = '';
+        if (images.length) lbImg.innerHTML = `<img src="${images[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+        else lbImg.textContent = '🎨';
+      }
+
+            document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+
+    // Color swatches
+    document.querySelectorAll('.color-swatch').forEach(sw => {
+      sw.addEventListener('click', function() {
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+        sw.classList.add('selected');
+      });
+    });
+
+    // Hero Carousel
+    (function(){
+      const slides = document.querySelectorAll('.hero-carousel-slide');
+      const dotsContainer = document.getElementById('heroDots');
+      if (!slides.length || !dotsContainer) return;
+      let current = 0, timer;
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => heroCarouselGo(i);
+        dotsContainer.appendChild(d);
+      });
+      function go(n) {
+        slides[current].classList.remove('active');
+        dotsContainer.children[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dotsContainer.children[current].classList.add('active');
+      }
+      window.heroCarouselMove = (dir) => { clearInterval(timer); go(current + dir); startTimer(); };
+      window.heroCarouselGo  = (i)   => { clearInterval(timer); go(i); startTimer(); };
+      function startTimer() { timer = setInterval(() => go(current + 1), 3000); }
+      startTimer();
+    })();
+
+    // Contact form
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('fname').value;
+      const email = document.getElementById('femail').value;
+      const subject = document.getElementById('fsubject').value;
+      const msg = document.getElementById('fmessage').value;
+      const waMsg = `Hola! Soy ${name} (${email}).\n\nConsulta sobre: ${subject || 'general'}\n\n${msg}`;
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+      setTimeout(() => window.open(`https://wa.me/5493329336646?text=${encodeURIComponent(waMsg)}`, '_blank'), 800);
+    });
+
+    // ── Google Sheets integration ──────────────────────────────────────────
+    const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKEFFjROx1fK5nF9SoqqXkMVvsUSSWL_sK51fUGiAzBddjzfvPhK_Y-w5of6ccQb17-xpjsbWs1o5w/pub?output=csv';
+    const CAT_LABELS = { ropa:'Remeras & Buzos', eventos:'Eventos & Fiestas', stickers:'Stickers & Packaging' };
+
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,'').trim());
+      return lines.slice(1).map(line => {
+        line = line.replace(/\r$/, '');
+        const vals = []; let cur = '', inQ = false;
+        for (const ch of line) {
+          if (ch === '"') inQ = !inQ;
+          else if (ch === ',' && !inQ) { vals.push(cur.trim()); cur = ''; }
+          else cur += ch;
+        }
+        vals.push(cur.trim());
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = (vals[i]||'').replace(/^"|"$/g,'').trim());
+        return obj;
+      }).filter(p => p.nombre && p.nombre.trim());
+    }
+
+    function renderSheetProducts(products) {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = products.map((p, i) => {
+        let imgSrc = (p.imagen_url||'').trim();
+      // auto-add .jpg if missing extension and not a URL
+      if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.includes('.')) imgSrc += '.jpg';
+        const catLabel = CAT_LABELS[p.categoria] || p.categoria || '';
+        const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-new':'badge-popular'}">${p.badge}</div>` : '';
+        const sinStock = (p.stock||'').toLowerCase().includes('sin');
+        const priceHtml = (p.precio||'').toLowerCase()==='consultar'
+          ? '<span class="product-price consultar">💬 A consultar</span>'
+          : `<span class="product-price" style="color:var(--rose);font-weight:700">${p.precio}</span>`;
+        const waText = encodeURIComponent('Hola! Me interesa ' + p.nombre + ' 🌸');
+        const imgHtml = imgSrc
+          ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
+          : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--cream)">🎨</div>';
+        const desc = (p.descripcion||'');
+        const img2 = (p.imagen_url2||'').trim();
+        const imagesAttr = img2 ? `data-images="imagenes/${imgSrc}|imagenes/${img2}"` : '';
+        return `<div class="product-card visible" data-category="${p.categoria}" data-name="${p.nombre}" data-desc="${desc}" data-price="${p.precio||''}" data-cat="${catLabel}" ${imagesAttr}>
+          <div class="product-img">${imgHtml}${badge}
+            <div class="product-overlay">
+              <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
+              <a href="https://wa.me/5493329336646?text=${waText}" target="_blank" class="overlay-btn">💬</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">${catLabel}</div>
+            <h3 class="product-name">${p.nombre}</h3>
+            <p class="product-desc">${desc.length>70?desc.substring(0,70)+'…':desc}</p>
+            <div class="product-footer">
+              ${priceHtml}
+              <span class="product-stock ${sinStock?'stock-out':'stock-ok'}">${sinStock?'':'<span class="stock-dot"></span>'}${sinStock?'Sin stock':'Disponible'}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      // Re-apply active filter
+      const active = document.querySelector('.filter-btn.active');
+      if (active && active.dataset.filter !== 'all') {
+        const f = active.dataset.filter;
+        document.querySelectorAll('.product-card').forEach(c => { c.style.display = c.dataset.category===f?'':'none'; });
+      }
+    }
+
+    // Fetch from Sheet — if successful replaces static cards; if fails, static cards stay
+    fetch(SHEET_CSV + '&t=' + Date.now())
+      .then(r => { if (!r.ok) throw new Error('not ok'); return r.text(); })
+      .then(text => { const prods = parseCSV(text); if (prods.length) renderSheetProducts(prods); })
+      .catch(() => { /* sheet not published yet — static cards remain */ });
+    // ── end Google Sheets integration ──────────────────────────────────────
+
+  </script>
+
+</body>
+</html>
