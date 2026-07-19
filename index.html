@@ -1225,6 +1225,7 @@
       <ul class="nav-links">
         <li><a href="#inicio">Inicio</a></li>
         <li><a href="#productos">Productos</a></li>
+        <li><a href="#envios">Envíos</a></li>
         <li><a href="#sobre-mi">Sobre mí</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
@@ -1240,6 +1241,7 @@
     <button class="mobile-close" id="mobileClose">✕</button>
     <a href="#inicio" class="mobile-link">Inicio</a>
     <a href="#productos" class="mobile-link">Productos</a>
+    <a href="#envios" class="mobile-link">Envíos</a>
     <a href="#sobre-mi" class="mobile-link">Sobre mí</a>
     <a href="#contacto" class="mobile-link">Contacto</a>
     <a href="https://wa.me/5493329336646" target="_blank" class="btn btn-primary">WhatsApp</a>
@@ -1578,6 +1580,88 @@
     </div>
   </section>
 
+  <!-- ENVÍOS -->
+  <style>
+    #envios { padding: 80px 0; background: var(--cream-dark); }
+    .envios-head { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+    .envios-head .section-sub { margin: 0 auto; }
+    .envios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto 44px;
+    }
+    .envio-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: 0 6px 24px var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .envio-card:hover { transform: translateY(-6px); box-shadow: 0 14px 36px var(--shadow-md); }
+    .envio-icon {
+      width: 62px; height: 62px;
+      margin: 0 auto 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      background: var(--rose-pale);
+      border-radius: 50%;
+    }
+    .envio-card h3 { font-size: 1.15rem; color: var(--text-dark); margin-bottom: 10px; }
+    .envio-card p { color: var(--text-mid); font-size: 0.9rem; line-height: 1.6; }
+    .envios-cta {
+      text-align: center;
+      background: var(--white);
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 34px 28px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 6px 24px var(--shadow);
+    }
+    .envios-cta h3 { font-size: 1.3rem; color: var(--text-dark); margin-bottom: 10px; }
+    .envios-cta p { color: var(--text-mid); font-size: 0.92rem; line-height: 1.65; margin-bottom: 22px; }
+    .andreani-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--rose-pale); color: var(--rose);
+      font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;
+      padding: 7px 16px; border-radius: 50px; margin-bottom: 16px;
+    }
+  </style>
+  <section id="envios">
+    <div class="container">
+      <div class="envios-head">
+        <span class="section-tag fade-up">Envíos a todo el país</span>
+        <h2 class="section-title fade-up delay-1">Te lo llevamos con Andreani 📦</h2>
+        <p class="section-sub fade-up delay-2">Hacemos envíos a toda Argentina a través de Andreani. Coordinamos todo por WhatsApp de forma rápida y segura.</p>
+      </div>
+      <div class="envios-grid">
+        <div class="envio-card fade-up">
+          <div class="envio-icon">🚚</div>
+          <h3>Envío a domicilio</h3>
+          <p>Recibí tu pedido en la puerta de tu casa a través de Andreani, a cualquier punto del país.</p>
+        </div>
+        <div class="envio-card fade-up delay-1">
+          <div class="envio-icon">🏢</div>
+          <h3>Retiro en sucursal</h3>
+          <p>Elegí la sucursal de Andreani más cercana y retirá tu pedido cuando te quede cómodo.</p>
+        </div>
+        <div class="envio-card fade-up delay-2">
+          <div class="envio-icon">📍</div>
+          <h3>Seguimiento del envío</h3>
+          <p>Te pasamos el número de seguimiento para que sepas dónde está tu paquete en todo momento.</p>
+        </div>
+      </div>
+      <div class="envios-cta fade-up delay-2">
+        <div class="andreani-badge">📦 ENVÍOS POR ANDREANI</div>
+        <h3>¿Querés saber el costo de envío a tu zona?</h3>
+        <p>El costo depende de tu ubicación y del tamaño del pedido. Escribinos por WhatsApp con tu localidad y te pasamos el precio exacto al toque.</p>
+        <a href="https://wa.me/5493329336646?text=Hola!%20Quiero%20consultar%20el%20costo%20de%20env%C3%ADo%20por%20Andreani%20%F0%9F%93%A6" target="_blank" class="btn btn-primary">💬 Consultar costo de envío</a>
+      </div>
+    </div>
+  </section>
+
   <!-- SOBRE MÍ -->
   <section id="sobre-mi">
     <div class="container">
@@ -1779,6 +1863,7 @@
           <div class="footer-links">
             <a href="#inicio">Inicio</a>
             <a href="#productos">Productos</a>
+            <a href="#envios">Envíos</a>
             <a href="#sobre-mi">Sobre mí</a>
             <a href="#contacto">Contacto</a>
           </div>
@@ -1990,10 +2075,11 @@
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const name = document.getElementById('fname').value;
+      const phone = document.getElementById('fphone').value;
       const email = document.getElementById('femail').value;
       const subject = document.getElementById('fsubject').value;
       const msg = document.getElementById('fmessage').value;
-      const waMsg = `Hola! Soy ${name} (${email}).\n\nConsulta sobre: ${subject || 'general'}\n\n${msg}`;
+      const waMsg = `Hola! Soy ${name} (${email})${phone ? ' · Tel: ' + phone : ''}.\n\nConsulta sobre: ${subject || 'general'}\n\n${msg}`;
       document.getElementById('contactForm').style.display = 'none';
       document.getElementById('formSuccess').style.display = 'block';
       setTimeout(() => window.open(`https://wa.me/5493329336646?text=${encodeURIComponent(waMsg)}`, '_blank'), 800);
@@ -2024,11 +2110,20 @@
     function renderSheetProducts(products) {
       const grid = document.getElementById('productsGrid');
       grid.innerHTML = products.map((p, i) => {
-        let imgSrc = (p.imagen_url||'').trim();
-      // auto-add .jpg if missing extension and not a URL
-      if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.includes('.')) imgSrc += '.jpg';
-      // if it's just a filename (not a full URL), prepend the images folder
-      if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('Imagenes/')) imgSrc = 'Imagenes/' + imgSrc;
+        // Normaliza un nombre de archivo o URL: respeta http, agrega .jpg si falta extensión, y antepone Imagenes/
+        function normImg(v) {
+          let s = (v||'').trim();
+          if (!s) return '';
+          if (s.startsWith('http')) return s;
+          if (!s.includes('.')) s += '.jpg';
+          if (!s.startsWith('Imagenes/')) s = 'Imagenes/' + s;
+          return s;
+        }
+        // imagen_url puede tener varias fotos separadas por | ; imagen_url2 se suma como extra
+        let allImgs = (p.imagen_url||'').split('|').map(normImg).filter(Boolean);
+        const extra = normImg(p.imagen_url2);
+        if (extra) allImgs.push(extra);
+        const imgSrc = allImgs[0] || '';
         const catLabel = CAT_LABELS[p.categoria] || p.categoria || '';
         const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-new':'badge-popular'}">${p.badge}</div>` : '';
         const sinStock = (p.stock||'').toLowerCase().includes('sin');
@@ -2040,9 +2135,7 @@
           ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
           : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--cream)">🎨</div>';
         const desc = (p.descripcion||'');
-        let img2 = (p.imagen_url2||'').trim();
-        if (img2 && !img2.startsWith('http') && !img2.startsWith('Imagenes/')) img2 = 'Imagenes/' + img2;
-        const imagesAttr = img2 ? `data-images="${imgSrc}|${img2}"` : '';
+        const imagesAttr = allImgs.length > 1 ? `data-images="${allImgs.join('|')}"` : '';
         return `<div class="product-card visible" data-category="${p.categoria}" data-name="${p.nombre}" data-desc="${desc}" data-price="${p.precio||''}" data-cat="${catLabel}" ${imagesAttr}>
           <div class="product-img">${imgHtml}${badge}
             <div class="product-overlay">
