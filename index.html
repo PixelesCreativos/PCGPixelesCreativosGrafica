@@ -2067,6 +2067,8 @@
         let imgSrc = (p.imagen_url||'').trim();
       // auto-add .jpg if missing extension and not a URL
       if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.includes('.')) imgSrc += '.jpg';
+      // if it's just a filename (not a full URL), prepend the images folder
+      if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('Imagenes/')) imgSrc = 'Imagenes/' + imgSrc;
         const catLabel = CAT_LABELS[p.categoria] || p.categoria || '';
         const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-new':'badge-popular'}">${p.badge}</div>` : '';
         const sinStock = (p.stock||'').toLowerCase().includes('sin');
@@ -2078,8 +2080,9 @@
           ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
           : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--cream)">🎨</div>';
         const desc = (p.descripcion||'');
-        const img2 = (p.imagen_url2||'').trim();
-        const imagesAttr = img2 ? `data-images="Imagenes/${imgSrc}|Imagenes/${img2}"` : '';
+        let img2 = (p.imagen_url2||'').trim();
+        if (img2 && !img2.startsWith('http') && !img2.startsWith('Imagenes/')) img2 = 'Imagenes/' + img2;
+        const imagesAttr = img2 ? `data-images="${imgSrc}|${img2}"` : '';
         return `<div class="product-card visible" data-category="${p.categoria}" data-name="${p.nombre}" data-desc="${desc}" data-price="${p.precio||''}" data-cat="${catLabel}" ${imagesAttr}>
           <div class="product-img">${imgHtml}${badge}
             <div class="product-overlay">
