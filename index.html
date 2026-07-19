@@ -2046,16 +2046,19 @@
       });
     });
 
-    // Hero Carousel
-    (function(){
+    // Hero Carousel — reiniciable (se puede volver a llamar cuando llegan imágenes del Sheet)
+    window.initHeroCarousel = function(){
       const slides = document.querySelectorAll('.hero-carousel-slide');
       const dotsContainer = document.getElementById('heroDots');
       if (!slides.length || !dotsContainer) return;
-      let current = 0, timer;
-      slides.forEach((_, i) => {
+      if (window._heroTimer) clearInterval(window._heroTimer);
+      let current = 0;
+      dotsContainer.innerHTML = '';
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === 0);
         const d = document.createElement('button');
         d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-        d.onclick = () => heroCarouselGo(i);
+        d.onclick = () => window.heroCarouselGo(i);
         dotsContainer.appendChild(d);
       });
       function go(n) {
@@ -2065,11 +2068,12 @@
         slides[current].classList.add('active');
         dotsContainer.children[current].classList.add('active');
       }
-      window.heroCarouselMove = (dir) => { clearInterval(timer); go(current + dir); startTimer(); };
-      window.heroCarouselGo  = (i)   => { clearInterval(timer); go(i); startTimer(); };
-      function startTimer() { timer = setInterval(() => go(current + 1), 3000); }
+      window.heroCarouselMove = (dir) => { clearInterval(window._heroTimer); go(current + dir); startTimer(); };
+      window.heroCarouselGo  = (i)   => { clearInterval(window._heroTimer); go(i); startTimer(); };
+      function startTimer() { window._heroTimer = setInterval(() => go(current + 1), 3000); }
       startTimer();
-    })();
+    };
+    window.initHeroCarousel();
 
     // Contact form
     document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -2168,6 +2172,50 @@
       .then(text => { const prods = parseCSV(text); if (prods.length) renderSheetProducts(prods); })
       .catch(() => { /* sheet not published yet — static cards remain */ });
     // ── end Google Sheets integration ──────────────────────────────────────
+
+    // ── Carrusel del inicio desde Google Sheets (hoja "carrusel") ───────────
+    // Lee una pestaña llamada "carrusel" con una columna "imagen".
+    // Si la hoja no existe o está vacía, quedan las imágenes por defecto del HTML.
+    const SHEET_ID = '1OotdapegeiGhj-UsV1rcKh-DyFQDdUXmshSt7F-YIlM';
+    const CARRUSEL_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+      '/gviz/tq?tqx=out:csv&sheet=carrusel';
+
+    function normImgCarrusel(v) {
+      let s = (v||'').trim().replace(/^"|"$/g,'').trim();
+      if (!s) return '';
+      if (s.startsWith('http')) return s;
+      if (!s.includes('.')) s += '.jpg';
+      if (!s.startsWith('Imagenes/')) s = 'Imagenes/' + s;
+      return s;
+    }
+
+    function renderCarrusel(imgs) {
+      const track = document.querySelector('#heroCarousel .hero-carousel-track');
+      if (!track || !imgs.length) return;
+      track.innerHTML = imgs.map((src, i) =>
+        `<div class="hero-carousel-slide${i===0?' active':''}"><img src="${src}" alt="PCG" onerror="this.closest('.hero-carousel-slide').style.display='none'"></div>`
+      ).join('');
+      // Reiniciar el carrusel para que tome la nueva cantidad de slides y regenere los puntitos
+      if (typeof window.initHeroCarousel === 'function') window.initHeroCarousel();
+    }
+
+    fetch(CARRUSEL_URL + '&t=' + Date.now())
+      .then(r => { if (!r.ok) throw new Error('not ok'); return r.text(); })
+      .then(text => {
+        const lines = text.trim().split(/\r?\n/);
+        if (lines.length < 2) return; // sin filas de datos
+        // detecta columna "imagen" (o usa la primera columna)
+        const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g,'').trim().toLowerCase());
+        let col = headers.indexOf('imagen');
+        if (col === -1) col = headers.indexOf('imagen_url');
+        if (col === -1) col = 0;
+        const imgs = lines.slice(1)
+          .map(l => normImgCarrusel(l.split(',')[col]))
+          .filter(Boolean);
+        if (imgs.length) renderCarrusel(imgs);
+      })
+      .catch(() => { /* hoja carrusel no existe — quedan las imágenes por defecto */ });
+    // ── end carrusel Sheets ─────────────────────────────────────────────────
 
   </script>
 
