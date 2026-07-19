@@ -700,7 +700,7 @@
       text-transform: uppercase;
     }
 
-    .badge-nuevo { background: var(--rose); color: #fff; }
+    .badge-nuevo { background: #7C3AED; color: #fff; }
     .badge-popular { background: #F5A623; color: #fff; }
     .badge-agotado { background: #9E9E9E; color: #fff; }
     .badge-ultimo { background: #E53935; color: #fff; }
@@ -1555,7 +1555,7 @@
         <div class="product-card fade-up delay-1" data-category="stickers" data-name="60 Stickers Feliz Día Amiga" data-desc="Pack de 60 stickers circulares «Feliz Día Amiga» personalizados con tu Instagram. Impresión de alta calidad, acabado mate. Ideales para packaging, regalos y envíos." data-price="$10.000" data-cat="Stickers & Packaging">
           <div class="product-img">
             <img src="Imagenes/sticker-amiga.jpg" alt="Stickers Feliz Día Amiga" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
-            <div class="product-badge badge-new">Nuevo</div>
+            <div class="product-badge badge-nuevo">Nuevo</div>
             <div class="product-overlay">
               <button class="overlay-btn" onclick="openLightbox(this.closest('.product-card'))">🔍</button>
               <a href="https://wa.me/5493329336646?text=Hola!%20Me%20interesan%20los%20Stickers%20Feliz%20Día%20Amiga%20🌸" target="_blank" class="overlay-btn">💬</a>
@@ -1678,12 +1678,12 @@
         </div>
         <div class="about-content">
           <span class="section-tag fade-up">Sobre mí</span>
-          <h2 class="section-title fade-up delay-1">Hola, soy la creadora detrás de PCG ✨</h2>
+          <h2 class="section-title fade-up delay-1">Hola, soy la creadora de Pixeles Creativos Gráfica ✨</h2>
           <p class="section-sub fade-up delay-2" style="margin-bottom:16px">
-            Soy diseñadora gráfica y emprendedora apasionada por transformar ideas en productos con identidad propia. Cada pieza que creo lleva un pedacito de mí: color, emoción y muchas ganas.
+            Me gusta diseñar, crear y transformar ideas en productos personalizados. PCG nació como un espacio para desarrollar mi creatividad y ofrecer diferentes productos y servicios relacionados con el diseño gráfico, la impresión y la personalización.
           </p>
           <p class="section-sub fade-up delay-3">
-            Empecé <strong>PCG - Pixeles Creativos Gráfica</strong> para acercar el diseño de calidad a quienes aman las cosas bellas, únicas y con alma. Desde papelería hasta ropa, todo está pensado con cariño.
+            Detrás de cada pedido estoy yo, encargándome de cada detalle para que el resultado sea tal como lo imaginaste. Gracias por elegir y apoyar el camino de la creatividad ✨️
           </p>
           <div class="about-skills fade-up delay-4">
             <span class="skill-tag">Diseño Gráfico</span>
@@ -2129,7 +2129,7 @@
         if (extra) allImgs.push(extra);
         const imgSrc = allImgs[0] || '';
         const catLabel = CAT_LABELS[p.categoria] || p.categoria || '';
-        const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-new':'badge-popular'}">${p.badge}</div>` : '';
+        const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-nuevo':'badge-popular'}">${p.badge}</div>` : '';
         const sinStock = (p.stock||'').toLowerCase().includes('sin');
         const priceHtml = (p.precio||'').toLowerCase()==='consultar'
           ? '<span class="product-price consultar">💬 A consultar</span>'
