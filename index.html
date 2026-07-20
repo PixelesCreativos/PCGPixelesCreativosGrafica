@@ -810,6 +810,16 @@
     .stock-low .stock-dot { background: #FF9800; }
     .stock-low { color: #FF9800; }
     .stock-out .stock-dot { background: #9E9E9E; }
+
+    /* En móvil: precio y estado se apilan verticalmente para que no se corten */
+    @media (max-width: 600px) {
+      .product-footer { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .product-price { font-size: 1.05rem; }
+      .product-stock { font-size: 0.7rem; }
+      .product-info { padding: 14px; }
+      .product-name { font-size: 0.98rem; }
+      .product-desc { font-size: 0.78rem; }
+    }
     .stock-out { color: #9E9E9E; }
 
     /* ═══════════════════════════════════════════
@@ -889,10 +899,42 @@
     .testimonios-header { text-align: center; margin-bottom: 56px; }
     .testimonios-header .section-sub { margin: 0 auto; }
 
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    .testimonials-wrap { position: relative; }
+    .testimonials-track {
+      display: flex;
       gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 4px 4px 20px;
+      scrollbar-width: none;
+    }
+    .testimonials-track::-webkit-scrollbar { display: none; }
+    .testimonials-track .testimonial-card {
+      flex: 0 0 clamp(260px, 32%, 360px);
+      scroll-snap-align: start;
+    }
+    .test-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none; cursor: pointer;
+      background: var(--white);
+      color: var(--rose);
+      font-size: 22px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px var(--shadow-md);
+      transition: background var(--transition), transform var(--transition);
+      z-index: 2;
+    }
+    .test-arrow:hover { background: var(--rose); color: #fff; transform: translateY(-50%) scale(1.08); }
+    .test-arrow.prev { left: -10px; }
+    .test-arrow.next { right: -10px; }
+    @media (max-width: 600px) {
+      .test-arrow { display: none; }
+      .testimonials-track .testimonial-card { flex: 0 0 85%; }
     }
 
     .testimonial-card {
@@ -1731,7 +1773,9 @@
         <h2 class="section-title">Lo que dicen mis clientas 💬</h2>
         <p class="section-sub">Sus palabras son el mejor regalo 🌸</p>
       </div>
-      <div class="testimonials-grid">
+      <div class="testimonials-wrap">
+        <button class="test-arrow prev" onclick="testScroll(-1)" aria-label="Anterior">‹</button>
+        <div class="testimonials-track" id="testimonialsTrack">
         <div class="testimonial-card fade-up">
           <div class="stars">★★★★★</div>
           <p class="testimonial-text">"Los stickers son hermosos, la calidad es excelente y llegaron súper bien empacados. ¡Ya hice mi segundo pedido! Súper recomendable."</p>
@@ -1756,11 +1800,11 @@
             <div><div class="author-name">Camila R.</div><div class="author-date">Abril 2025</div></div>
           </div>
         </div>
-      </div>
+        </div><!-- end testimonials-track -->
+        <button class="test-arrow next" onclick="testScroll(1)" aria-label="Siguiente">›</button>
+      </div><!-- end testimonials-wrap -->
     </div>
   </section>
-
-  <!-- CONTACTO -->
   <section id="contacto">
     <div class="container">
       <div style="margin-bottom:56px" class="fade-up">
@@ -2165,6 +2209,15 @@
       startTimer();
     };
     window.initHeroCarousel();
+
+    // Carrusel de testimonios (deslizable con flechas o swipe táctil)
+    window.testScroll = function(dir) {
+      const track = document.getElementById('testimonialsTrack');
+      if (!track) return;
+      const firstCard = track.querySelector('.testimonial-card');
+      const step = firstCard ? firstCard.offsetWidth + 24 : 300; // ancho tarjeta + gap
+      track.scrollBy({ left: dir * step, behavior: 'smooth' });
+    };
 
     // Contact form
     document.getElementById('contactForm').addEventListener('submit', function(e) {
