@@ -510,8 +510,8 @@
       50% { transform: translateY(-8px); }
     }
 
-    .hero-badge.badge-top { top: 20px; left: -30px; }
-    .hero-badge.badge-bottom { bottom: 30px; right: -20px; }
+    .hero-badge.badge-top { top: 20px; left: 20px; }
+    .hero-badge.badge-bottom { bottom: 30px; right: 20px; }
     .hero-badge .badge-icon { font-size: 1.3rem; }
 
     @media (max-width: 900px) {
@@ -521,8 +521,8 @@
       .hero-eyebrow { justify-content: center; }
       .hero-stats { justify-content: center; }
       .hero-image { max-width: 380px; margin: 0 auto; }
-      .hero-badge.badge-top { left: -10px; }
-      .hero-badge.badge-bottom { right: -10px; }
+      .hero-badge.badge-top { left: 10px; }
+      .hero-badge.badge-bottom { right: 10px; }
     }
 
     /* ═══════════════════════════════════════════
@@ -1298,27 +1298,14 @@
         </div>
         <div class="hero-image fade-up delay-2">
           <div class="hero-img-wrap">
-            <div class="hero-carousel" id="heroCarousel">
-              <div class="hero-carousel-track">
-                <div class="hero-carousel-slide active"><img src="Imagenes/6a2dca45-6ecc-416b-8d98-a9730307235c.jpg" alt="Remera 11:11"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/2c88a950-99bb-4a4a-a5b0-178f5b5196c0.jpg" alt="Buzo Nirvana"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/70ce91f9-d0d4-438b-8ebf-7a028e74e6df.jpg" alt="Kit Bailarina"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/ac76bc3e-2a0f-45ad-bec4-c52ba1b977df.jpg" alt="Remera Guns N Roses"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/d7a298a8-d472-49e8-ae33-1920f0f52e8b.jpg" alt="Kit Abejitas"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/0a8e4f10-08a0-4533-ad2b-ae4f7dda7956.jpg" alt="Remera Aesthetic"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/1c6b4cc7-5c0e-4710-af53-50fa9f690135.jpg" alt="Remera ACDC"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/378739c1-7907-4879-b678-11c36401a507.jpg" alt="Remera Hermano Mayor"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/64bcd880-7ccf-4588-8e3a-18e6e3672ac2.jpg" alt="Kit Paw Patrol"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/accff16f-8bea-46a1-8573-e3d8aa6941d8.jpg" alt="Centro Mesa Paw Patrol"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/f5dc4218-f4de-486a-8639-a0a7f34e4f91.jpg" alt="Bolsa Roblox"></div>
-                <div class="hero-carousel-slide"><img src="Imagenes/eeabb7fd-9bd1-4f50-ad43-31d5ca7ff415.jpg" alt="Remera Somos Instantes"></div>
-              </div>
+            <div class="hero-carousel" id="heroCarousel" style="display:none">
+              <div class="hero-carousel-track"></div>
               <button class="carousel-btn prev" onclick="heroCarouselMove(-1)">&#8249;</button>
               <button class="carousel-btn next" onclick="heroCarouselMove(1)">&#8250;</button>
               <div class="carousel-dots" id="heroDots"></div>
+              <div class="hero-badge badge-top"><span class="badge-icon">✨</span><span>Diseños exclusivos</span></div>
+              <div class="hero-badge badge-bottom"><span class="badge-icon">🌸</span><span>Hecho con amor</span></div>
             </div>
-            <div class="hero-badge badge-top"><span class="badge-icon">✨</span><span>Diseños exclusivos</span></div>
-            <div class="hero-badge badge-bottom"><span class="badge-icon">🌸</span><span>Hecho con amor</span></div>
           </div>
         </div>
       </div>
@@ -2276,11 +2263,17 @@
     }
 
     function renderCarrusel(imgs) {
+      const carousel = document.getElementById('heroCarousel');
       const track = document.querySelector('#heroCarousel .hero-carousel-track');
-      if (!track || !imgs.length) return;
+      if (!track) return;
+      if (!imgs.length) {
+        if (carousel) carousel.style.display = 'none';
+        return;
+      }
       track.innerHTML = imgs.map((src, i) =>
         `<div class="hero-carousel-slide${i===0?' active':''}"><img src="${src}" alt="PCG" onerror="this.closest('.hero-carousel-slide').style.display='none'"></div>`
       ).join('');
+      if (carousel) carousel.style.display = '';
       // Reiniciar el carrusel para que tome la nueva cantidad de slides y regenere los puntitos
       if (typeof window.initHeroCarousel === 'function') window.initHeroCarousel();
     }
