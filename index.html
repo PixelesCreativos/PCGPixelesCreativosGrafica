@@ -667,8 +667,30 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 28px;
     }
-    @media (max-width: 900px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
-    @media (max-width: 520px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    @media (max-width: 900px) and (min-width: 601px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    }
+    /* En móvil: grilla horizontal deslizable de 2 filas */
+    @media (max-width: 600px) {
+      .products-grid {
+        display: grid;
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 65%;
+        grid-template-rows: repeat(2, auto);
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 4px 20px 20px;
+        margin: 0 -20px;
+        scrollbar-width: none;
+      }
+      .products-grid::-webkit-scrollbar { display: none; }
+      .products-grid .product-card { scroll-snap-align: start; }
+      /* En móvil no hay paginación: se ven todos al deslizar */
+      .catalog-nav { display: none !important; }
+    }
 
     .catalog-wrap { position: relative; }
     .catalog-nav {
@@ -1386,6 +1408,7 @@
         <button class="filter-btn" data-filter="cuadros">🖼️ Fotos y Cuadros</button>
       </div>
 
+      <div class="swipe-hint">← Deslizá para ver más productos →</div>
       <div class="products-grid" id="productsGrid">
 
         <!-- PRODUCTO 1 -->
@@ -2111,15 +2134,22 @@
       if (catPage >= totalPages) catPage = totalPages - 1;
       if (catPage < 0) catPage = 0;
 
-      // Oculta todas, luego muestra solo las de la página actual
+      // En móvil: sin paginación (todos entran deslizando horizontalmente)
+      const isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+      // Oculta todas, luego muestra las que corresponden
       cards.forEach(c => { c.style.display = 'none'; });
-      const start = catPage * PER_PAGE;
-      matches.slice(start, start + PER_PAGE).forEach(c => { c.style.display = ''; c.classList.add('visible'); });
+      if (isMobile) {
+        matches.forEach(c => { c.style.display = ''; c.classList.add('visible'); });
+      } else {
+        const start = catPage * PER_PAGE;
+        matches.slice(start, start + PER_PAGE).forEach(c => { c.style.display = ''; c.classList.add('visible'); });
+      }
 
       // Estado vacío
       empty.style.display = matches.length === 0 ? 'block' : 'none';
-      // Navegación: solo si hay más de una página
-      if (totalPages > 1) {
+      // Navegación por páginas: solo en escritorio si hay más de una página
+      if (!isMobile && totalPages > 1) {
         nav.style.display = 'flex';
         info.textContent = (catPage + 1) + ' / ' + totalPages;
         prev.disabled = catPage === 0;
@@ -2143,6 +2173,12 @@
 
     // Exponer para que la carga del Sheet pueda re-renderizar
     window.catRender = catRender;
+    // Re-render al rotar el celular o cambiar el tamaño de ventana (para adaptarse a móvil/escritorio)
+    let _catResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(_catResizeTimer);
+      _catResizeTimer = setTimeout(catRender, 200);
+    });
     window.catResetPage = () => { catPage = 0; };
     catRender();
     // ── end catálogo ────────────────────────────────────────────────────────
