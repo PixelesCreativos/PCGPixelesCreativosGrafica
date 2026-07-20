@@ -1684,6 +1684,39 @@
     }
     .envio-card h3 { font-size: 1.15rem; color: var(--text-dark); margin-bottom: 10px; }
     .envio-card p { color: var(--text-mid); font-size: 0.9rem; line-height: 1.6; }
+    .swipe-hint { display: none; }
+
+    /* En móvil: las tarjetas de envío se muestran en fila deslizable horizontalmente */
+    @media (max-width: 600px) {
+      .envios-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 14px;
+        padding: 4px 20px 20px;
+        margin: 0 -20px 32px;
+        scrollbar-width: none;
+      }
+      .envios-grid::-webkit-scrollbar { display: none; }
+      .envio-card {
+        flex: 0 0 78%;
+        scroll-snap-align: start;
+        padding: 22px 20px;
+      }
+      .envio-card h3 { font-size: 1.02rem; }
+      .envio-card p { font-size: 0.83rem; }
+      .envio-icon { width: 50px; height: 50px; font-size: 24px; margin-bottom: 12px; }
+      .swipe-hint {
+        display: block;
+        text-align: center;
+        font-size: 0.72rem;
+        color: var(--text-light);
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        opacity: 0.7;
+      }
+    }
     .envios-cta {
       text-align: center;
       background: var(--white);
@@ -1709,6 +1742,7 @@
         <h2 class="section-title fade-up delay-1">Te lo llevamos con Andreani 📦</h2>
         <p class="section-sub fade-up delay-2">Hacemos envíos a toda Argentina a través de Andreani. Coordinamos todo por WhatsApp de forma rápida y segura.</p>
       </div>
+      <div class="swipe-hint">← Deslizá para ver todas →</div>
       <div class="envios-grid">
         <div class="envio-card fade-up">
           <div class="envio-icon">🚚</div>
