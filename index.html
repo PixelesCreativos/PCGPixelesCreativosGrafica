@@ -1983,7 +1983,30 @@
       const cards = Array.from(document.querySelectorAll('#productsGrid .product-card'));
       // Determina qué tarjetas entran según el filtro
       // Alias: categorías viejas que deben caer en las nuevas
-      const CAT_ALIASES = { ropa: 'indumentaria' };
+      // Alias: acepta tanto claves cortas ("eventos") como el nombre largo del botón ("eventos & fiestas")
+      // y también variantes antiguas o con "y"/"&"
+      const CAT_ALIASES = {
+        'ropa': 'indumentaria',
+        'indumentaria': 'indumentaria',
+        'eventos': 'eventos',
+        'eventos & fiestas': 'eventos',
+        'eventos y fiestas': 'eventos',
+        'fiestas': 'eventos',
+        'bodas': 'bodas',
+        'bodas y aniversarios': 'bodas',
+        'bodas & aniversarios': 'bodas',
+        'aniversarios': 'bodas',
+        'stickers': 'stickers',
+        'tags y stickers': 'stickers',
+        'tags & stickers': 'stickers',
+        'tags': 'stickers',
+        'accesorios': 'accesorios',
+        'souvenirs': 'souvenirs',
+        'cuadros': 'cuadros',
+        'fotos y cuadros': 'cuadros',
+        'fotos & cuadros': 'cuadros',
+        'fotos': 'cuadros'
+      };
       const matches = cards.filter(c => {
         if (catFilter === 'all') return true;
         let cat = (c.dataset.category || '').trim().toLowerCase();
@@ -2204,7 +2227,17 @@
         const extra = normImg(p.imagen_url2);
         if (extra) allImgs.push(extra);
         const imgSrc = allImgs[0] || '';
-        const catKey = (p.categoria || '').trim().toLowerCase();
+        // Normalizar categoría: pasar por CAT_ALIASES para mapear nombres largos a claves cortas
+        const CAT_ALIASES_RENDER = {
+          'ropa': 'indumentaria', 'indumentaria': 'indumentaria',
+          'eventos': 'eventos', 'eventos & fiestas': 'eventos', 'eventos y fiestas': 'eventos', 'fiestas': 'eventos',
+          'bodas': 'bodas', 'bodas y aniversarios': 'bodas', 'bodas & aniversarios': 'bodas', 'aniversarios': 'bodas',
+          'stickers': 'stickers', 'tags y stickers': 'stickers', 'tags & stickers': 'stickers', 'tags': 'stickers',
+          'accesorios': 'accesorios', 'souvenirs': 'souvenirs',
+          'cuadros': 'cuadros', 'fotos y cuadros': 'cuadros', 'fotos & cuadros': 'cuadros', 'fotos': 'cuadros'
+        };
+        let catKey = (p.categoria || '').trim().toLowerCase();
+        if (CAT_ALIASES_RENDER[catKey]) catKey = CAT_ALIASES_RENDER[catKey];
         const catLabel = CAT_LABELS[catKey] || p.categoria || '';
         const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-nuevo':'badge-popular'}">${p.badge}</div>` : '';
         const sinStock = (p.stock||'').toLowerCase().includes('sin');
