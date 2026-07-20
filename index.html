@@ -317,6 +317,8 @@
       gap: 32px;
     }
     .mobile-menu.open { display: flex; }
+    /* Ocultar el hamburger cuando el menú está abierto para que no se solape con la X */
+    body:has(.mobile-menu.open) .hamburger { visibility: hidden; }
     .mobile-menu a {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
@@ -326,12 +328,17 @@
     .mobile-menu a:hover { color: var(--rose); }
     .mobile-close {
       position: absolute;
-      top: 24px; right: 24px;
-      background: none;
-      border: none;
-      font-size: 1.6rem;
+      top: 20px; left: 20px;
+      background: var(--white);
+      border: 1px solid var(--rose-pale);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      font-size: 1.4rem;
       cursor: pointer;
       color: var(--text-dark);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px var(--shadow-md);
+      z-index: 1000;
     }
 
     @media (max-width: 768px) {
@@ -350,6 +357,9 @@
       position: relative;
       overflow: hidden;
       padding-top: 100px;
+    }
+    [data-theme="dark"] #hero {
+      background: var(--cream);
     }
 
     .hero-shapes {
