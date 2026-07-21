@@ -859,6 +859,8 @@
     .stock-low .stock-dot { background: #FF9800; }
     .stock-low { color: #FF9800; }
     .stock-out .stock-dot { background: #9E9E9E; }
+    .stock-temporada .stock-dot { background: #AD1457; }
+    .stock-temporada { color: #AD1457; }
 
     /* En móvil: precio y estado se apilan verticalmente para que no se corten */
     @media (max-width: 600px) {
@@ -2535,7 +2537,9 @@
         const badgeKey = (p.badge||'').trim().toLowerCase();
         const badgeCls = BADGE_MAP[badgeKey] || 'badge-popular';
         const badge = p.badge ? `<div class="product-badge ${badgeCls}">${p.badge}</div>` : '';
-        const sinStock = (p.stock||'').toLowerCase().includes('sin');
+        const stockVal = (p.stock||'').trim().toLowerCase();
+        const sinStock = stockVal.includes('sin');
+        const porTemporada = stockVal.includes('temporada');
         const priceHtml = (p.precio||'').toLowerCase()==='consultar'
           ? '<span class="product-price consultar">💬 A consultar</span>'
           : `<span class="product-price" style="font-weight:700">${p.precio}</span>`;
@@ -2558,7 +2562,7 @@
             <p class="product-desc">${desc.length>70?desc.substring(0,70)+'…':desc}</p>
             <div class="product-footer">
               ${priceHtml}
-              <span class="product-stock ${sinStock?'stock-out':'stock-ok'}">${sinStock?'':'<span class="stock-dot"></span>'}${sinStock?'Sin stock':'Disponible'}</span>
+              <span class="product-stock ${sinStock?'stock-out':porTemporada?'stock-temporada':'stock-ok'}"><span class="stock-dot"></span>${sinStock?'Sin stock':porTemporada?'Por Temporada':'Disponible'}</span>
             </div>
           </div>
         </div>`;
