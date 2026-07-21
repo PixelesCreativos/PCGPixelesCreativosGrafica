@@ -760,8 +760,13 @@
       text-transform: uppercase;
     }
 
-    .badge-nuevo { background: #7C3AED; color: #fff; }
-    .badge-popular { background: #F5A623; color: #fff; }
+    .badge-nuevo       { background: #7C3AED; color: #fff; }
+    .badge-popular     { background: #F5A623; color: #fff; }
+    .badge-mas-vendido { background: #E53935; color: #fff; }
+    .badge-promocion   { background: #2E7D32; color: #fff; }
+    .badge-pdf         { background: #1565C0; color: #fff; }
+    .badge-por-cantidad  { background: #00838F; color: #fff; }
+    .badge-por-temporada  { background: #AD1457; color: #fff; }
     .badge-temporada { background: #fff; color: #7C3AED; border: 1px solid var(--rose-pale); }
     .badge-agotado { background: #9E9E9E; color: #fff; }
     .badge-ultimo { background: #E53935; color: #fff; }
@@ -2524,7 +2529,10 @@
         let catKey = (p.categoria || '').trim().toLowerCase();
         if (CAT_ALIASES_RENDER[catKey]) catKey = CAT_ALIASES_RENDER[catKey];
         const catLabel = CAT_LABELS[catKey] || p.categoria || '';
-        const badge = p.badge ? `<div class="product-badge ${p.badge.toLowerCase()==='nuevo'?'badge-nuevo':'badge-popular'}">${p.badge}</div>` : '';
+        const BADGE_MAP = { 'nuevo':'badge-nuevo', 'popular':'badge-popular', 'mas vendido':'badge-mas-vendido', 'más vendido':'badge-mas-vendido', 'promocion':'badge-promocion', 'promoción':'badge-promocion', 'pdf':'badge-pdf', 'por cantidad':'badge-por-cantidad', 'por temporada':'badge-por-temporada' };
+        const badgeKey = (p.badge||'').trim().toLowerCase();
+        const badgeCls = BADGE_MAP[badgeKey] || 'badge-popular';
+        const badge = p.badge ? `<div class="product-badge ${badgeCls}">${p.badge}</div>` : '';
         const sinStock = (p.stock||'').toLowerCase().includes('sin');
         const priceHtml = (p.precio||'').toLowerCase()==='consultar'
           ? '<span class="product-price consultar">💬 A consultar</span>'
