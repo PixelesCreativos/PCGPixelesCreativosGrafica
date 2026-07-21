@@ -1308,7 +1308,7 @@
 
     .lightbox-cat { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); font-weight: 600; }
     .lightbox-name { font-size: 1.5rem; margin: 10px 0; color: var(--text-dark); }
-    .lightbox-desc { font-size: 0.88rem; line-height: 1.7; color: var(--text-mid); }
+    .lightbox-desc { font-size: 0.88rem; line-height: 1.9; color: var(--text-mid); }
     .lightbox-price { font-size: 1.6rem; color: var(--rose); margin: 16px 0 4px; }
     .lightbox-actions { display: flex; flex-direction: column; gap: 10px; }
     .lightbox-gallery { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; pointer-events: none; border-radius: 12px; overflow: hidden; }
@@ -2281,7 +2281,10 @@
     function openLightbox(card) {
       document.getElementById('lightboxCat').textContent = card.dataset.cat || '';
       document.getElementById('lightboxName').textContent = card.dataset.name || '';
-      document.getElementById('lightboxDesc').textContent = card.dataset.desc || '';
+      const rawDesc = card.dataset.desc || '';
+      document.getElementById('lightboxDesc').innerHTML = rawDesc
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\\n/g,'<br>').replace(/\n/g,'<br>');
       const lbImg = document.getElementById('lightboxImg');
       const priceEl = document.getElementById('lightboxPrice');
       const price = card.dataset.price || '';
@@ -2548,6 +2551,7 @@
           ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
           : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--cream)">🎨</div>';
         const desc = (p.descripcion||'');
+        const descPlain = desc.replace(/\\n/g,' ').replace(/\n/g,' ').replace(/\|/g,' ');
         const imagesAttr = allImgs.length > 1 ? `data-images="${allImgs.join('|')}"` : '';
         return `<div class="product-card visible" data-category="${catKey}" data-name="${p.nombre}" data-desc="${desc}" data-price="${p.precio||''}" data-cat="${catLabel}" ${imagesAttr}>
           <div class="product-img">${imgHtml}${badge}
@@ -2559,7 +2563,7 @@
           <div class="product-info">
             <div class="product-cat">${catLabel}</div>
             <h3 class="product-name">${p.nombre}</h3>
-            <p class="product-desc">${desc.length>70?desc.substring(0,70)+'…':desc}</p>
+            <p class="product-desc">${descPlain.length>70?descPlain.substring(0,70)+'…':descPlain}</p>
             <div class="product-footer">
               ${priceHtml}
               <span class="product-stock ${sinStock?'stock-out':porTemporada?'stock-temporada':'stock-ok'}"><span class="stock-dot"></span>${sinStock?'Sin stock':porTemporada?'Por Temporada':'Disponible'}</span>
