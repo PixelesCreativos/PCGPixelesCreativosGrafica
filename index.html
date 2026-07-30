@@ -745,10 +745,8 @@
       position: relative;
       aspect-ratio: 1/1;
       overflow: hidden;
-      background: #ffffff;
+      background: var(--rose-pale);
     }
-    .product-img img { object-fit: contain !important; padding: 8px; }
-    [data-theme="dark"] .product-img { background: #f4f0fa; }
 
     .img-placeholder {
       width: 100%;
@@ -1302,12 +1300,13 @@
       flex: 1;
       min-width: 300px;
       max-width: 500px;
-      background: var(--rose-pale);
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 6rem;
       min-height: 350px;
+      padding: 16px;
     }
 
     .lightbox-info {
@@ -1941,7 +1940,7 @@
         </div>
         <div class="about-content">
           <span class="section-tag fade-up">Sobre mí</span>
-          <h2 class="section-title fade-up delay-1">Hola soy Mica, la creadora de PCG ✨</h2>
+          <h2 class="section-title fade-up delay-1">Hola, soy Mica, la creadora de PCG ✨</h2>
           <p class="section-sub fade-up delay-2" style="margin-bottom:16px">
             Me gusta diseñar, crear y transformar ideas en productos personalizados. PCG nació como un espacio para desarrollar mi creatividad y ofrecer diferentes productos y servicios relacionados con el diseño gráfico, la impresión y la personalización.
           </p>
@@ -2311,7 +2310,7 @@
       }
 
       function showImg(src, thumbEl) {
-        lbImg.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+        lbImg.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:contain;border-radius:12px">`;
         document.querySelectorAll('.lightbox-thumb').forEach(t => t.classList.remove('active'));
         if (thumbEl) thumbEl.classList.add('active');
       }
@@ -2323,7 +2322,7 @@
       if (images.length > 1) {
         let lbCurrent = 0;
         lbImg.style.position = 'relative';
-        lbImg.innerHTML = `<img src="${images[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+        lbImg.innerHTML = `<img src="${images[0]}" style="width:100%;height:100%;object-fit:contain;border-radius:12px">`;
         const dotsHtml = images.map((_,i) => `<button class="lightbox-dot${i===0?' active':''}" data-i="${i}"></button>`).join('');
         const gallery = document.createElement('div');
         gallery.id = 'lightboxGallery';
@@ -2343,7 +2342,7 @@
         lbImg.querySelectorAll('.lightbox-dot').forEach(d => d.addEventListener('click', e => { e.stopPropagation(); lbGo(+d.dataset.i); }));
       } else {
         lbImg.style.position = '';
-        if (images.length) lbImg.innerHTML = `<img src="${images[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+        if (images.length) lbImg.innerHTML = `<img src="${images[0]}" style="width:100%;height:100%;object-fit:contain;border-radius:12px">`;
         else lbImg.textContent = '🎨';
       }
 
@@ -2554,7 +2553,7 @@
         : `<span class="product-price" style="font-weight:700">${p.precio}</span>`;
       const waText = encodeURIComponent('Hola! Me interesa ' + p.nombre + ' 🌸');
       const imgHtml = imgSrc
-        ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display='none'">`
+        ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
         : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--cream)">🎨</div>';
       const desc = (p.descripcion||'');
       const descPlain = desc.replace(/\\n/g,' ').replace(/\n/g,' ').replace(/\|/g,' ');
